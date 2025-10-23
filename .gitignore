@@ -1,3 +1,10 @@
 .DS_Store
 twitter_proxy_config.json
 js/tweet.js
+descriptions.html
+css/styles.css
+index.html
+activites.html
+tsconfig.json
+data/saved_tweets.json
+js/get_saved_tweets.js
