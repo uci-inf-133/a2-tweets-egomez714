@@ -36,14 +36,39 @@ function parseTweets(runkeeper_tweets) {
     day: 'numeric'
 	});
 
-	var completeCount = 0;
+
+	var eCount = 0;
+	var lCount = 0;
+	var aCount = 0;
+	var mCount = 0;
+	var wCount = 0;
+
 	for (let i = 0; i < tweet_array.length; i++){
-		if (tweet_array[i].source === 'completed_event'){
-			completeCount += 1;
-		}
+		if (tweet_array[i].source === 'completed_event'){eCount += 1;}
+		if (tweet_array[i].source === 'live_event'){lCount += 1;}
+		if (tweet_array[i].source === 'achievement'){aCount += 1;}
+		if (tweet_array[i].source === 'miscellaneous'){mCount += 1;}
+		if (tweet_array[i].written){wCount += 1;}
 	}
-	document.getElementsByClassName('completedEvents')[0].innerText = completeCount;
-	document.getElementsByClassName('completedEventsPct')[0].innerText = ((completeCount / tweet_array.length) * 100).toFixed(2) + '%';
+	document.getElementsByClassName('completedEvents')[0].innerText = eCount;
+	document.getElementsByClassName('completedEventsPct')[0].innerText = ((eCount / tweet_array.length) * 100).toFixed(2) + '%';
+	
+
+	document.getElementsByClassName('liveEvents')[0].innerText = lCount;
+	document.getElementsByClassName('liveEventsPct')[0].innerText = ((lCount / tweet_array.length) * 100).toFixed(2) + '%';
+	
+
+	document.getElementsByClassName('achievements')[0].innerText = aCount;
+	document.getElementsByClassName('achievementsPct')[0].innerText = ((aCount / tweet_array.length) * 100).toFixed(2) + '%';
+
+
+	document.getElementsByClassName('miscellaneous')[0].innerText = mCount;
+	document.getElementsByClassName('miscellaneousPct')[0].innerText = ((mCount / tweet_array.length) * 100).toFixed(2) + '%';
+
+	document.getElementsByClassName('completedEvents')[1].innerText = eCount;
+
+	document.getElementsByClassName('written')[0].innerText = wCount;
+	document.getElementsByClassName('writtenPct')[0].innerText = ((wCount / tweet_array.length) * 100).toFixed(2) + '%';
 }
 
 //Wait for the DOM to load
