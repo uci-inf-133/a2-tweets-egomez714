@@ -67,7 +67,7 @@ class Tweet {
             return "unknown";
         }
 
-        // List of known activities (expand as needed)
+        // List of known activities
         const activities = [
             "run", "walk", "bike", "cycling", "swim", "elliptical", "spinning",
              "meditation", "hike", "freestyle", "workout", "yoga", 
@@ -84,9 +84,6 @@ class Tweet {
             if (activities.includes(candidate)) {
                 return candidate;
             }
-        }
-        for (const act of activities) {
-        if (new RegExp(`\\b${act}\\b`, 'i').test(this.text)) return act;
         }
         return "unknown";
     }

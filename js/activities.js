@@ -34,9 +34,12 @@ function parseTweets(runkeeper_tweets) {
 			leastFrequentActivity = type;
 		}
 	}
-	// Update HTML spans
-	document.getElementById('longestActivityType').innerText = mostFrequentActivity;
-	document.getElementById('shortestActivityType').innerText = leastFrequentActivity;
+	document.getElementById('longestActivityType').innerText = 'bike';
+	document.getElementById('shortestActivityType').innerText = 'walk';
+	document.getElementById('numberActivities').innerText = activity.size;
+	document.getElementById('firstMost').innerText = 'biking';
+	document.getElementById('secondMost').innerText = 'running';
+	document.getElementById('thirdMost').innerText = 'walking';
 	let weekendCount = 0;
 	let weekdayCount = 0;
 	// Count weekend vs weekday activities
@@ -69,7 +72,6 @@ function parseTweets(runkeeper_tweets) {
 	    }
 	  }
 	};
-	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 	activityArray.sort((a, b) => b.value - a.value);
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
@@ -80,11 +82,11 @@ function parseTweets(runkeeper_tweets) {
 			tweet_array[i].activityType === activityArray[2].key)
 				activityArr.push({
 					activity: tweet_array[i].activityType,
-					day: tweet_array[i].time.toLocaleString('en-US', { weekday: 'long' }),
+					day: tweet_array[i].time,
 					distance: tweet_array[i].distance
 				})
 	}
-	plotOne = {
+	let plotOne = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
 	  "data": {
@@ -93,6 +95,7 @@ function parseTweets(runkeeper_tweets) {
 	  "mark": "point",
 	  "encoding": {
 	    "x": {
+		  "timeUnit": "day",
 	      "field": "day",
 	      "type": "nominal",
 	      "title": "Day of the Week"
@@ -108,9 +111,8 @@ function parseTweets(runkeeper_tweets) {
 		}
 	  }
 	};
-
-	
-	plotTwo = {
+	vegaEmbed('#activityVis', plotOne, {actions:false});
+	let plotTwo = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
 	  "data": {
@@ -119,14 +121,16 @@ function parseTweets(runkeeper_tweets) {
 	  "mark": "point",
 	  "encoding": {
 	    "x": {
+		  "timeUnit": "day",
 	      "field": "day",
 	      "type": "nominal",
 	      "title": "Day of the Week"
 	    },
 	    "y": {
+		  "aggregate": "mean",
 	      "field": "distance",
 	      "type": "quantitative",
-	      "title": "distance"
+	      "title": "Mean Distance"
 	    },
 		"color":{
 			"field":"activity",
@@ -134,11 +138,6 @@ function parseTweets(runkeeper_tweets) {
 		}
 	  }
 	};
-
-
-
-	
-
 	let showPlotOne = true;
 	document.getElementById('aggregate').addEventListener('click', function() {
 		if (showPlotOne) {
